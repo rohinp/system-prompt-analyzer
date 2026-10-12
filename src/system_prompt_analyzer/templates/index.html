@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Turn system prompts into an interactive map of rules and gaps." />
+    <title>System Prompt Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', path='/app.css') }}" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="System Prompt Analyzer home">
+        <span class="brand-mark">S<span>/</span>P</span>
+        <span>Prompt Analyzer</span>
+      </a>
+      <div class="provider-status" id="provider-status">
+        <span class="status-dot"></span>
+        <span>Local analysis</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Instruction architecture, made visible</p>
+        <h1>See the rules.<br /><em>Find the loose ends.</em></h1>
+        <p class="lede">
+          Drop in a system prompt. We’ll map its instructions, constraints, guards,
+          tool rules, and the gaps that could make an agent drift.
+        </p>
+      </section>
+
+      <section class="workspace">
+        <form class="prompt-panel" id="analyze-form">
+          <div class="panel-heading">
+            <div>
+              <span class="step">01</span>
+              <h2>Your system prompt</h2>
+            </div>
+            <span class="word-count" id="word-count">0 words</span>
+          </div>
+          <textarea id="prompt" name="prompt" placeholder="Paste a system prompt here…" required></textarea>
+          <div class="form-footer">
+            <span class="hint">Nothing leaves your configured environment.</span>
+            <button type="submit" id="analyze-button">
+              <span>Analyze prompt</span>
+              <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+        </form>
+
+        <section class="results-panel" id="results" aria-live="polite">
+          <div class="empty-state">
+            <div class="orbit" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+              <strong>●</strong>
+            </div>
+            <p>Your prompt map will appear here.</p>
+            <span>Present rules are solid. Suggested additions are outlined.</span>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="results-template">
+      <div class="result-heading">
+        <div>
+          <span class="step">02</span>
+          <h2>Prompt map</h2>
+        </div>
+        <p class="result-summary"></p>
+      </div>
+      <div class="legend">
+        <span><i class="present"></i> Present</span>
+        <span><i class="suggested"></i> Suggested</span>
+      </div>
+      <div class="map" role="list"></div>
+    </template>
+
+    <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+  </body>
+</html>
